@@ -1,0 +1,1052 @@
+to install latest git version(ubuntu):-
+-------------------------------------
+cd ~
+sudo add-apt-repository ppa:git-core/ppa 
+sudo apt-get update 
+sudo apt-get install git -y 
+git --version 
+git config --global user.name "venkatesh-devops" 
+git config --global user.email "nvenkat285@gmail.com" &&
+git config --list 
+git clone https://github.com/venkatesh-devops/petclinic-war.git
+
+
+
+********************************************************************************
+************************************************************************************
+
+
+to install openjdk8 on ubuntu:16.04:-
+-------------------------------------
+
+
+reference-link:-
+--------------
+
+
+==> https://tecadmin.net/install-openjdk-java-ubuntu
+
+cd ~
+
+
+
+
+
+set JAVA_HOME path perminently:-
+------------------------------
+
+reference-link:-
+--------------
+
+===> http://nvnsolution.blogspot.in/2012/02/how-to-set-permanent-variable-path-in.html
+
+cd ~
+sudo apt-get update
+sudo apt-get install openjdk-8-jre openjdk-8-jdk
+nano /etc/profile  ==> copy below text  
+
+JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export JAVA_HOME
+PATH=$PATH:$JAVA_HOME
+export PATH 
+
+
+source /etc/profile
+
+***************************************************************************************
+***************************************************************************************
+
+
+
+
+
+to install latest apache-maven on ubuntu:16.04:-
+----------------------------------------------
+
+reference-link:-
+--------------
+===> https://www.vultr.com/docs/how-to-install-apache-maven-on-ubuntu-16-04
+
+
+cd ~
+cd /opt/
+wget https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.5.2/apache-maven-3.5.2-bin.tar.gz
+sudo tar -xvzf apache-maven-3.5.2-bin.tar.gz
+sudo mv apache-maven-3.5.2 maven
+sudo nano /etc/profile.d/mavenenv.sh         ==>copy the below text
+
+
+export M2_HOME=/opt/maven
+export PATH=${M2_HOME}/bin:${PATH}
+
+
+sudo chmod +x /etc/profile.d/mavenenv.sh
+source /etc/profile.d/mavenenv.sh
+mvn --version
+
+
+***********************************************************************************
+***********************************************************************************
+
+
+
+to install jenkins on ubuntu:16.04:-
+----------------------------------
+
+reference-link:-
+--------------
+==> https://tecadmin.net/install-jenkins-in-ubuntu/
+
+cd ~
+
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo apt-get update
+sudo apt-get install jenkins
+
+http://54.166.96.203:8080/
+
+
+***********************************************************************************
+***********************************************************************************
+
+to set jdk path in ubuntu:-
+-------------------------
+
+go to the this directory
+
+
+cd /usr/lib/jvm
+
+ls
+cd java-1.8.0-openjdk-amd64/
+pwd
+/usr/lib/jvm/java-1.8.0-openjdk-amd64
+
+
+copy the path and paste in the jdk installations in jdk(manage jenkins -> global tool configarations)
+
+
+*********************************************************************************************
+******************************************************************************************
+
+
+to install tomcat7 on ubuntu:16.04:-
+----------------------------------
+
+reference-link:-
+---------------
+
+===> https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-7-on-ubuntu-14-04-via-apt-get
+
+
+
+sudo apt-get update
+sudo apt-get install tomcat7
+sudo apt-get install tomcat7-docs 
+sudo apt-get install tomcat7-examples -y
+sudo apt-get install tomcat7-admin -y
+cd ~
+cd /var/lib/tomcat7/
+ls
+cd conf/
+ls
+
+====> edit port in the server.xml
+
+nano server.xml  
+
+====> edit port in the server.xml
+
+sudo service tomcat7 restart
+
+sudo nano /etc/default/tomcat7
+
+==>Find the JAVA_OPTS line and replace it with the following. Feel free to change the Xmx and MaxPermSize values—these settings affect how much memory Tomcat will use:
+   ==>you search JAVA_OPTS edit xmx-512
+
+
+sudo service tomcat7 restart
+
+cd ~
+
+sudo nano /etc/tomcat7/tomcat-users.xml     ===> copy the below text
+
+  <user username="admin" password="12345" roles="manager-script"/>
+
+
+
+sudo service tomcat7 restart
+
+
+***************************************************************************************************************
+***************************************************************************************************************
+
+to copy one file (windows) to linux sever(EC2)
+----------------------------------------------
+
+ scp -i "techmarshals.pem" -r /d/venkatesh/ ubuntu@ec2-18-188-12-11.us-east-2.compute.amazonaws.com:/home/ubuntu/venkatesh/
+
+
+
+
+
+to copy one file linux sever (EC2) to Windows:
+---------------------------------------------
+
+
+scp -i "techmarshals.pem" -r ubuntu@ec2-13-59-153-113.us-east-2.compute.amazonaws.com:/var/lib/jenkins/ /d/venkatesh/
+
+
+
+
+************************************************************************************************************************************
+************************************************************************************************************************************
+
+JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export JAVA_HOME
+PATH=$PATH:$JAVA_HOME
+export PATH
+
+
+
+*******************************************************************************************************************
+*******************************************************************************************************************
+
+Changing the Jenkins HoME_DIRECTORY:-
+-----------------------------------
+
+1) first stop the jenkins service: 
+   ------------------------------
+
+service jenkins stop
+    
+service jenkins status
+
+    
+make the directory where were you change the directory:-
+------------------------------------------------------ 
+
+
+sudo mkdir -p /apps/jenkins
+    
+pwd
+    
+cd ~
+
+change the ownership permissions to new directory:-
+--------------------------------------------------------------
+    
+chown jenkins:jenkins /apps/jenkins
+    
+
+copy the jenkins home directory to new created directory:-
+--------------------------------------------------------
+
+
+rsync -av /var/lib/jenkins /apps/
+    
+
+ls -al /apps/jenkins/
+
+
+change the JENKINS HOME DIRECTORY:- 
+---------------------------------  
+
+usermod -d /apps/jenkins jenkins
+    
+
+grep jenkins /etc/passwd
+    
+
+Change the jenkins home direcory path:-
+-------------------------------------
+
+vi /etc/default/jenkins  ====> copy below text
+
+
+JENKINS_HOME=/apps/jenkins
+
+
+restart the jenkins service:-
+---------------------------     
+
+service jenkins restart
+
+
+*****************************************************************************************************************
+*****************************************************************************************************************
+
+
+ sudo mkdir -p /apps/jenkins
+  241  cd /apps/jenkins/
+  242  ls
+  243  cd ..
+  244  cd ~
+  245  chmod 777 /apps/jenkins/
+  246  ls
+  247  ls -al /apps/jenkins/
+  248  service jenkins stop
+  249  service jenkins status
+  250  chown jenkins:jenkins /root/apps/jenkins
+  251  chown jenkins:jenkins /apps/jenkins
+  252  usermod -d /apps/jenkins jenkins
+  253  grep jenkins /etc/passwd
+  254  vi /etc/default/jenkins
+  255  service jenkins restart
+  256  cat /apps/jenkins/secrets/initialAdminPassword
+  257  service jenkins stop
+  258  vi /etc/default/jenkins
+  259  service jenkins restart
+  260  service jenkins stop
+  261  chown jenkins:jenkins /apps/jenkins
+  262  rsync -av /var/lib/jenkins /apps/
+  263  usermod -d /apps/jenkins jenkins
+  264  grep jenkins /etc/passwd
+  265  ls -al /apps/jenkins/
+  266  vi /etc/default/jenkins
+  267  service jenkins restart
+  268  history
+
+
+****************************************************************************************************************
+
+*****************************************************************************************************************
+
+
+Docker Swarm-Clustering:
+-----------------------
+
+Link:-https://rominirani.com/docker-swarm-tutorial-b67470cf8872
+
+
+ docker -v
+  603  curl ifconfig.co
+  604  docker swarm init --advertise-addr 18.218.177.8
+  605  docker node ls
+  606  docker service create --replicas 5 -p 80:80 --name web nginx
+  607  docker service ls
+  608  docker service ps web
+  609  docker service scale web=8
+  610  docker service ls
+  611  docker service ps web
+  612  docker node inspect self
+  613  docker node inspect worker1
+  614  docker node ps worker1
+  615  docker node ps worker2
+  616  docker node ls
+  617  docker node ps Worker2
+  618  history
+
+
+
+
+*****************************************************************************************************************
+*****************************************************************************************************************
+
+
+
+
+
+docker images push to docker hub:-
+--------------------------------
+
+
+
+docker build -t petclinic .
+  744  docker im ages
+  745  docker images
+  746  docker push devopsvenkateshhyd/petclinic
+  747  docker tag e7f0bbecc167 devopsvenkateshhyd/petclinic:myfirstdockerimage
+  748  docker push devopsvenkateshhyd/petclinic
+  749  docker login --username=devopsvenkateshhyd --email=devopsvenkateshhyd@gmail.com
+  750  docker push devopsvenkateshhyd/petclinic
+  751  docker pull devopsvenkateshhyd/petclinic
+  752  docker rmi petclinic
+  753  docker pull devopsvenkateshhyd/petclinic
+  754  docker pull devopsvenkateshhyd/petclinic:myfirstdockerimage
+  755  docker images
+  756  docker rmi devopsvenkateshhyd/petclinic
+  757  docker rmi devopsvenkateshhyd/petclinic:myfirstdockerimage
+  758  docker images
+ 
+  761  docker images
+  762  docker build -t petclinic .
+
+  763  docker images
+  764  docker tag 44e491860ad4 devopsvenkateshhyd/petclinic:latest
+  765  docker push devopsvenkateshhyd/petclinic
+  766  docker pull devopsvenkateshhyd/petclinic:latest
+  767  history
+
+
+******************************************************************************************************************
+******************************************************************************************************************
+
+
+giving permissions to unable to create jenkins home directory and .m2 folder in tomcat7:-
+----------------------------------------------------------------------------------------
+
+
+
+ cd ~
+  117  cd /usr/share/tomcat7
+  118  ls
+  119  sudo mkdir .jenkins
+  120  sudo chown tomcat7:nogroup .jenkins
+  121  service tomcat7 restart
+ 
+  125  cd /usr/share/tomcat7
+  126  ls
+  127  ls -al
+  128  mkdir .m2
+ 
+  132  ls -al
+  133  chmod +x .m2
+  134  ls -al
+  135  sudo chown tomcat7:nogroup .m2
+ 
+136 service tomcat7 restart
+
+
+
+*************************************************************************************************************
+
+***************************************************************************************************************
+
+
+
+docker-ce installation on ubuntu-16.04:-
+--------------------------------------
+
+link:- https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1
+-----------------------------------------------------------------------------------
+
+
+sudo apt-get remove docker docker-engine docker.io
+
+sudo apt-get update
+
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+sudo apt-key fingerprint 0EBFCD88
+  
+sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+sudo apt-get update
+
+sudo apt-get install docker-ce
+   
+docker version
+   
+
+
+
+******************************************************************************************************************
+******************************************************************************************************************
+
+creating sample webapplication without using IDE:-
+-------------------------------------------------
+
+
+ mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp
+
+
+*****************************************************************************************************************
+******************************************************************************************************************
+
+
+ Available maven lifecycle phases are:-
+-------------------------------------- 
+
+
+ 1.validate, 
+ 2.initialize, 
+ 3.generate-sources, 
+ 4.process-sources, 
+ 5.generate-resources, 
+ 6.process-resources, 
+ 7.compile, 
+ 8.process-classes, 
+ 9.generate-test-sources,
+ 10.process-test-sources, 
+ 11.generate-test-resources, 
+ 12.process-test-resources, 
+ 13.test-compile, 
+ 14.process-test-classes, 
+ 15.test, 
+ 16.prepare-package, 
+ 17.package, 
+ 18.pre-integration-test, 
+ 19.integration-test, 
+ 20.post-integration-test, 
+ 21.verify, 
+ 22.install, 
+ 23.deploy, 
+ 24.pre-clean, 
+ 25.clean, 
+ 26.post-clean, 
+ 27.pre-site, 
+ 28.site, 
+ 29.post-site, 
+ 30.site-deploy.
+
+
+****************************************************************************************************************
+****************************************************************************************************************
+
+chef node bootstraping node linux ubuntu16.04:-
+-----------------------------------------------
+
+step:1
+++++++
+
+
+chefdk install on ubuntu 16.04:-
+------------------------------
+
+1. wget https://packages.chef.io/files/stable/chefdk/3.0.36/ubuntu/16.04/chefdk_3.0.36-1_amd64.deb
+     
+ 
+2. dpkg -i chefdk_3.0.36-1_amd64.deb
+   
+
+3. knife -v
+
+
+step:2
+++++++
+
+copy chef-repo from windows to linux :-
+-------------------------------------
+
+
+scp -i "techmarshals.pem" -r /d/chef-repo/ ubuntu@ec2-18-220-118-76.us-east-2.compute.amazonaws.com:/home/ubuntu/
+ 
+
+copy your pem file from windows to linux:- 
+----------------------------------------
+
+
+scp -i "techmarshals.pem" -r techmarshals.pem ubuntu@ec2-18-220-118-76.us-east-2.compute.amazonaws.com:/home/ubuntu/
+ 
+
+
+step:3
+++++++
+
+Bootstraping node:-
+-----------------
+
+     ==> go to chef-repo folder
+
+
+knife bootstrap 52.14.101.141 --ssh-user ubuntu --sudo --identity-file /home/ubuntu/techmarshals.pem -N venkatesh
+
+
+
+step:4
+++++++
+
+download cookbook from chefsuper-market:-
+----------------------------------------
+ 
+====> go to the cookbooks folder
+
+
+
+knife cookbook site download learn_chef_apache2
+
+
+tar -xvzf learn_chef_apache2-0.3.0.tar.gz
+
+
+upload the cookbook to chefserver:-
+----------------------------------
+
+
+===> go to chef-repo folder/cookbooks folder
+
+
+knife cookbook upload learn_chef_apache2
+
+
+
+step:5
+++++++
+
+Add run-list to chef node:-
+--------------------------
+
+
+knife node run_list add venkatesh 'recipe[learn_chef_apache2]'
+
+
+
+-----------------------------------------
+
+
+ 
+knife cookbook list
+
+
+knife node list
+
+
+knife node show venkatesh
+
+
+******************************************************************************************************************
+
+*******************************************************************************************************************
+
+
+if i lost key pair solution for recovering:- 
+-------------------------------------------
+
+
+An instance can only be associated with a key pair only at launch time (either to an existing key pair or by creating a new key pair). 
+
+that means if you lose the key pair then you won't be able to generate another one for that already running instance or associate it with an already existing key pair.
+
+To urgently address your issue, you may try to do the following:-
+
+
+1. From your AWS console stop the instance in question
+
+2. Create a snapshot of the instance
+
+3. Create a duplicate instance from the resulting snapshot and create a new Key Pair. 
+
+
+Once the instance is up and running, you would be able to log into the new instance using the new key pair. 
+
+The new instance is identical in every aspect to the original instance and you can carry on your work from there. 
+
+If you were using an elastic IP, then dissociate it from the old instance and associate it with the new instance and make sure to update DNS as well. 
+
+If you are happy you can then terminate the old instance.
+
+
+
+
+*****************************************************************************************************************
+
+*****************************************************************************************************************
+
+Setting up Docker secret-passwords in  dockerfile:-
+-------------------------------------------------
+
+link: ===> https://medium.com/@jamiejaxon/got-it-i-overlooked-the-source-mention-12ca96380c8c
+
+
+  mkdir -p /run/secrets/
+   echo "my-db-pass" > /run/secrets/secret-db-pass
+  
+  
+    docker run --name demo-mysql -e MYSQL_ROOT_PASSWORD=/run/secrets/secret-db-pass -d mysql
+    docker ps
+  
+    docker run --name demo-wordpress --link demo-mysql:mysql -p 8080:90 -d wordpress
+
+
+
+                            ( OR )
+
+
+
+touch docker-compose.yml
+
+
+vi docker-compose.yml        ===> copy below text 
+
+
+-----------------------------------------------------------------
+
+version: '2.0'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_PASSWORD: /run/secrets/secret-db-pass
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: /run/secrets/secret-db-pass
+
+
+------------------------------------------------------------
+
+docker-compose -f docker-compose.yml up
+
+
+
+http://18.219.10.159:8080/
+
+
+
+*******************************************************************************************************************
+
+*******************************************************************************************************************
+
+
+to copy files host to running docker container:-
+-----------------------------------------------
+
+
+docker cp ./petclinic.war testing:/usr/local/tomcat/webapps/petclinic.war
+
+then restart container
+
+docker restart testing
+
+
+                 ( OR )
+
+
+directly copying and runing docker container at atime:-
+------------------------------------------------------
+
+
+docker run -d --rm --name solo -p 8888:8080 -v /root/petclinic.war:/usr/local/tomcat/webapps/petclinic.war tomcat:7.0
+ 
+
+
+curl 18.222.31.244:9091/petclinic
+
+
+docker stop $(docker ps -a -q )
+
+docker rm $(docker ps -a -q )
+   
+docker rmi -f $(docker images -a)
+
+
+*******************************************************************************************************************
+*******************************************************************************************************************
+
+
+continous deployment using jenkins-docker:-
+------------------------------------------
+
+usermod -aG docker $USER
+    
+chmod 777 /var/run/docker.sock
+
+docker version
+
+
+
+creating sample webapplication without using IDE:-
+-------------------------------------------------
+
+
+ mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp
+
+
+
+create job and execute shell commands:-
+-------------------------------------
+
+cd ~
+cd workspace/ 
+cd dockerdeploy/
+docker stop staging
+docker rm staging
+docker rmi -f test
+docker build -t test .
+docker run -d -it --name staging -p 9000:8080 test 
+docker ps
+docker inspect staging | grep "IPAddress"
+
+
+
+*******************************************************************************************************************
+*******************************************************************************************************************
+
+
+LInk:-https://blog.codeship.com/orchestrate-containers-for-development-with-docker-compose/
+
+
+Functionality
+The main function of Docker Compose is the creation of microservice architecture, meaning the containers and the links between them. But the tool is capable of much more:
+
+Building images (if an appropriate Dockerfile is provided)
+docker-compose build
+Scaling containers running a given service
+docker-compose scale SERVICE=3
+Healing, i.e., re-running containers that have stopped
+docker-compose up --no-recreate
+All this functionality is available through the docker-compose utility, which has a very similar set of commands to what is offered by docker:
+
+build    Build or rebuild services 
+help     Get help on a command 
+kill     Kill containers 
+logs     View output from containers 
+port     Print the public port for a port binding 
+ps       List containers 
+pull     Pulls service images 
+rm       Remove stopped containers 
+run      Run a one-off command 
+scale    Set number of containers for a service 
+start    Start services 
+stop     Stop services 
+restart  Restart services 
+up       Create and start containers
+They are not only similar, but they also behave like docker counterparts. The only difference is that they affect the entire multi-container architecture defined in the docker-compose.yml configuration file and not just a single container.
+
+You’ll notice some docker commands are not present in docker-compose. Those are the ones that don’t make sense in the context of a completely multi-container setup. For instance:
+
+Commands for image manipulation (e.g., save, search, images, import, export, tag, history)
+User-interactive (e.g., attach, exec, ‘run -i’, login, wait)
+A command that is worth your attention is the docker-compose up command. It is a shorthand form of docker-compose build && docker-compose run
+
+
+
+**************************************************************************************************************************************************************************************************************************************
+
+
+
+tomcat-8.0.53 installation on ubuntu-16.04:-
+------------------------------------------
+
+reference-link:- https://devops.profitbricks.com/tutorials/how-to-install-and-configure-tomcat-8-on-ubuntu-1604/
+
+   13  sudo apt-get update
+   14  sudo apt-get install default-jdk
+   15  java -version
+   16  sudo groupadd tomcat
+   17  sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+   19  useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+   30  wget http://www-us.apache.org/dist/tomcat/tomcat-8/v8.0.53/bin/apache-tomcat-8.0.53.tar.gz
+   31  ls
+   32  tar -xvzf apache-tomcat-8.0.53.tar.gz
+   33  ls
+   34  sudo mv apache-tomcat-8.0.53 /opt/tomcat
+   35  sudo chgrp -R tomcat /opt/tomcat
+   36  sudo chown -R tomcat /opt/tomcat
+   37  sudo chmod -R 755 /opt/tomcat
+   38  sudo nano /etc/systemd/system/tomcat.service
+   39  sudo systemctl daemon-reload
+   40  sudo systemctl start tomcat
+   41  sudo systemctl status tomcat
+   42  sudo systemctl enable tomcat
+   43  sudo ufw allow 8080
+   44  ls
+   45  locate tomcat
+   46  cd /opt/
+   47  ls
+   48  cd tomcat/
+   49  ls
+   50  cd webapps/
+   51  ls
+   52  pwd
+   53  ls
+   54  cd ..
+   55  ls
+   56  cd conf/
+   57  ls
+   58  nano tomcat-users.xml
+   59  service tomcat status
+   60  service tomcat restart
+   61  history
+
+
+
+==================================================================================================================
+
+
+
+
+My Creadentials:-
+--------------
+
+
+
+
+
+ knife bootstrap 18.208.127.210 --ssh-user ubuntu --sudo --identity-file /home/chefdk/chef-repo/polyglot.pem -N client-tomcat -r recipe[deployment] -y
+
+
+
+
+s3cmd setacl s3://s3.amazonaws.com/polyglot9396/polyglot.war --acl-public
+
+
+https://s3.amazonaws.com/polyglot9396/polyglot.war
+
+
+
+
+Access key
+
+AKIAICZTC37W56V22HOQ
+
+
+secret key
+
+jWkiP4kRDPyZnF7sj+beItAKPthu19XRuaprBkPo
+
+
+
+
+aws s3 sync s3://https://s3.amazonaws.com/polyglot9396/polyglot.war s3://https://s3.amazonaws.com/polyglot9396/polyglot.war --acl public-read
+
+
+
+ aws s3 sync . s3://polyglot9396/ --acl public-read-write
+
+
+
+============================================================================================++++++++++++++++++++++
+
+
+configuring the aws-jenkins:-
+----------------------------
+
+
+https://docs.aws.amazon.com/systems-manager/latest/userguide/automation-jenkins.html
+
+
+
+
+go to jenkins home directory:-
+
+
+cd /var/lib/jenkins
+
+
+sudo su - jenkins
+
+aws configure
+
+give creadentials
+
+
+
+run commands in jenkins job
+
+*****************************************************************************************************************
+*****************************************************************************************************************
+
+
+
+connecting two ec2 instances through ssh:-
+----------------------------------------
+
+
+firstserver:
+-----------
+connect to first server 
+
+
+sudo su  (or) sudo -i             ===>this will goes to the root user
+
+
+
+set the password for root 
+-------------------------
+
+
+
+passwd root
+
+enterpassword
+
+
+
+
+change sshd_config file:-
+-----------------------
+
+
+
+ vim /etc/ssh/sshd_config
+
+
+====> find the Authentication in PermitRootLogin to yes
+
+# Authentication:
+LoginGraceTime 120
+PermitRootLogin yes
+StrictModes yes
+
+
+
+======> change to PasswordAuthentication to yes
+
+
+
+# Change to no to disable tunnelled clear text passwords
+PasswordAuthentication yes
+
+
+
+=============
+
+
+
+restart the sshd service:- 
+------------------------
+
+service sshd restart 
+
+
+
+connect the second server:
+-------------------------
+
+same like above steps
+
+
+======================
+
+
+connecting first server to second server:-
+----------------------------------------
+
+
+login to first server:- 
+
+ssh root@<secondserve-public-ip>
+
+
+to copy sshkey from this server another server:-
+----------------------------------------------
+
+ssh-copy-id root@<public or private ip>
+
+
+
+*****************************************************************************************************************
+*******************************************************************************************************************
+
+
+jenkins upgrade from debian packages:-
+------------------------------------
+
+
+We've tried several apt-get commands to force the upgrade
+
+$ apt-get dist-upgrade
+$ apt-get dist-upgrade jenkins
+$ apt-get upgrade jenkins
+$ apt-get install --reinstall jenkins
+
+
+
+
+**************************************************************************************************************************************************************************************************************************************
